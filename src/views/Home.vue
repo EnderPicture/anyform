@@ -1,19 +1,54 @@
 <template>
-    <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
-    </div>
+    <h1>Image Utility</h1>
+    <input @change="input" type="file" name="thing" id="" multiple />
+    <file-cell v-for="file in files" :key="file.name" :file="file"></file-cell>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-import Worker from "worker-loader!../workers/img-worker"
+import FileCell from "@/components/file-cell.vue";
+import Worker from "worker-loader!@/workers/img-worker";
 
 export default {
-    name: "Home",
+    name: "App",
+    data() {
+        return {
+            files: [],
+        };
+    },
+    methods: {
+        input(e) {
+            console.log(e);
+            let target = e.target;
+            let files = target.files;
+
+            e.target.files.forEach((file) => {
+                this.files.push({
+                    name: file.name,
+                    file: file,
+                });
+            });
+
+            let file = files[0];
+
+            let imgWorker = new Worker();
+            imgWorker.postMessage({
+                action: "process",
+                file: file,
+            });
+            imgWorker.onmessage = (e) => {
+                let status = e.data.status;
+                if (status === "processed") {
+                    this.blobURL = URL.createObjectURL(e.data.output);
+                    this.newFileName = `${file.name}.${e.data.extension}`;
+                }
+            };
+
+            // target.value = "";
+        },
+    },
     components: {
-        HelloWorld,
+        FileCell,
     },
     created() {
         // load worker
