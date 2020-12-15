@@ -1,7 +1,7 @@
 <template>
     <h1>Image Utility</h1>
     <input @change="input" type="file" name="thing" id="" multiple />
-    <file-cell v-for="file in files" :key="file.name" :file="file"></file-cell>
+    <file-cell v-for="(file, index) in files" :index="index" :key="file.name" :file="file"></file-cell>
 </template>
 
 <script>
@@ -11,47 +11,26 @@ import Worker from "worker-loader!@/workers/img-worker";
 
 export default {
     name: "App",
-    data() {
-        return {
-            files: [],
-        };
+    computed: {
+        files() {
+            return this.$store.state.files;
+        },
     },
     methods: {
         input(e) {
-            console.log(e);
             let target = e.target;
             let files = target.files;
 
-            e.target.files.forEach((file) => {
-                this.files.push({
-                    name: file.name,
-                    file: file,
-                });
+            files.forEach((file) => {
+                this.$store.dispatch("addFile", file);
             });
-
-            let file = files[0];
-
-            let imgWorker = new Worker();
-            imgWorker.postMessage({
-                action: "process",
-                file: file,
-            });
-            imgWorker.onmessage = (e) => {
-                let status = e.data.status;
-                if (status === "processed") {
-                    this.blobURL = URL.createObjectURL(e.data.output);
-                    this.newFileName = `${file.name}.${e.data.extension}`;
-                }
-            };
-
-            // target.value = "";
         },
     },
     components: {
         FileCell,
     },
     created() {
-        // load worker
+        // only used to load the worker
         let imgWorker = new Worker();
         imgWorker.postMessage({
             action: "load",
