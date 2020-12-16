@@ -48,6 +48,11 @@ import Worker from "worker-loader!@/workers/img-worker";
 
 export default {
     name: "App",
+    data() {
+        return {
+            nextId: 0,
+        }
+    },
     computed: {
         files() {
             return this.$store.state.files;
@@ -56,11 +61,7 @@ export default {
     methods: {
         input(e) {
             let target = e.target;
-            let files = target.files;
-
-            files.forEach((file) => {
-                this.$store.dispatch("addFile", file);
-            });
+            this.$store.dispatch("addFiles", target.files);
         },
     },
     components: {
