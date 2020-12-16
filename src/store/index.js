@@ -1,5 +1,13 @@
 import { createStore } from 'vuex'
-import Worker from 'worker-loader!@/workers/img-worker';
+import Worker from 'worker-loader!@/js/img-worker';
+
+const FILE_STATUS = {
+    initialized: 0,
+    waiting: 1,
+    processing: 2,
+    failed: -1,
+    processed: 3,
+};
 
 export default createStore({
     state: {

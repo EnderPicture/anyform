@@ -42,9 +42,7 @@ h1 {
 </template>
 
 <script>
-// @ is an alias to /src
 import FileCell from "@/components/file-cell.vue";
-import Worker from "worker-loader!@/workers/img-worker";
 
 export default {
     name: "App",
