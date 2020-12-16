@@ -34,11 +34,11 @@ h1 {
         <p>Add Images Here</p>
     </label>
     <file-cell
-        v-for="(file, index) in files"
-        :index="index"
+        v-for="file in files"
         :key="file.name"
         :file="file"
     ></file-cell>
+    <button @click="process">process</button>
 </template>
 
 <script>
@@ -48,11 +48,6 @@ import Worker from "worker-loader!@/workers/img-worker";
 
 export default {
     name: "App",
-    data() {
-        return {
-            nextId: 0,
-        }
-    },
     computed: {
         files() {
             return this.$store.state.files;
@@ -63,22 +58,16 @@ export default {
             let target = e.target;
             this.$store.dispatch("addFiles", target.files);
         },
+        process() {
+            this.$store.dispatch("processAllFiles");
+        }
     },
     components: {
         FileCell,
     },
     created() {
         // only used to load the worker
-        let imgWorker = new Worker();
-        imgWorker.postMessage({
-            action: "load",
-        });
-        imgWorker.onmessage = (e) => {
-            let status = e.data.status;
-            if (status === "loaded") {
-                console.log("loaded");
-            }
-        };
+        this.$store.dispatch("loadWorker");
     },
 };
 </script>

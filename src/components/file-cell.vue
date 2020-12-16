@@ -3,7 +3,7 @@
 div {
     @include mid-width;
     display: grid;
-    grid-template-columns: 5rem auto 5rem;
+    grid-template-columns: auto auto auto auto;
     > p {
         padding: .5rem;
         margin: 0;
@@ -12,9 +12,10 @@ div {
 </style>
 <template>
     <div class="hello">
-        <p>{{index}}</p>
+        <p>{{file.id}}</p>
         <p>{{file.name}}</p>
-        <p>{{file.processed}}</p>
+        <p>processing: {{file.processing}}</p>
+        <p>done: {{file.processed}}</p>
     </div>
 </template>
 
@@ -23,7 +24,6 @@ export default {
     name: "fileCell",
     props: {
         file: Object,
-        index: Number,
     },
 };
 </script>

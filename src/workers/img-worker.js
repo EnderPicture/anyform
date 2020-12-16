@@ -12,8 +12,10 @@ onmessage = e => {
         });
     } else if (message === "process") {
 
+        console.log("hello");
+
         let file = data.file;
-        let extension = "png";
+        let extension = "jpg";
 
         file.arrayBuffer().then((d) => {
 
@@ -25,7 +27,6 @@ onmessage = e => {
                     // image.blur(1, 5);
 
                     console.log(image.toString());
-                    console.log(image);
 
                     image.write(data => {
                         let blob = new Blob([data], { type: `image/${extension}` });
@@ -33,6 +34,7 @@ onmessage = e => {
                             status: "processed",
                             output: blob,
                             extension: extension,
+                            id: data.id,
                         });
 
                     }, MagickFormat.Png);

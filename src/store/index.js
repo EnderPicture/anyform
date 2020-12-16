@@ -1,30 +1,63 @@
 import { createStore } from 'vuex'
+import Worker from 'worker-loader!@/workers/img-worker';
 
 export default createStore({
     state: {
         files: [],
+        nextIndex: 0,
+        worker: null,
     },
     mutations: {
         addFile(state, fileObject) {
             state.files.push(fileObject);
         },
-        setOutput(state, index, output) {
-            state.files[index].output = output;
+        setOutput(state, id, output) {
+            let file = state.files.find(file => file.id == id);
+            file.output = output;
         },
-        setProcessing(state, index, isProcessing) {
-            state.files[index].processing = isProcessing;
+        setProcessing(state, id, isProcessing) {
+            let file = state.files.find(file => file.id == id);
+            file.processing = isProcessing;
         },
-        setProcessed(state, index, isProcessed) {
-            state.files[index].processed = isProcessed;
+        setProcessed(state, id, isProcessed) {
+            let file = state.files.find(file => file.id == id);
+            file.processed = isProcessed;
         },
-        setFailed(state, index, isFailed) {
-            state.files[index].failed = isFailed;
+        setFailed(state, id, isFailed) {
+            let file = state.files.find(file => file.id == id);
+            file.failed = isFailed;
+        },
+        incrementId(state) {
+            state.nextIndex++;
+        },
+        addWorker(state, worker) {
+            state.worker = worker;
         }
     },
     actions: {
+        async loadWorker(context) {
+            let imgWorker = new Worker();
+            this.state.worker = imgWorker;
+
+            imgWorker.postMessage({
+                action: 'load',
+            });
+            imgWorker.onmessage = (e) => {
+                let status = e.data.status;
+                if (status === 'loaded') {
+                    console.log('loaded');
+                } else if (status === 'processed') {
+                    context.commit('setProcessed', e.data.id, true);
+                    context.commit('setOutput', e.data.id, e.data.output);
+                } else if (status === 'failed') {
+                    context.commit('setFailed', e.data.id, true);
+                }
+            };
+        },
         addFile(context, file) {
             let fileObject = {
-                file: file,
+                id: context.state.nextIndex,
+                ogFile: file,
                 name: file.name,
                 processed: false,
                 processing: false,
@@ -32,36 +65,30 @@ export default createStore({
                 output: null,
                 process: [],
             }
+            context.commit('incrementId');
             context.commit('addFile', fileObject);
         },
         addFiles(context, files) {
             files.forEach((file) => {
-                context.dispatch("addFile", file);
+                context.dispatch('addFile', file);
             });
         },
         processAllFiles(context) {
             let notProcessed = context.state.files.filter(file => !file.processed);
-            context.dispatch('processFile', )
-        },
-        processFile(context, index) {
-            let file = context.state.files[index];
-
-            let imgWorker = new Worker();
-            imgWorker.postMessage({
-                action: "process",
-                file: file,
+            notProcessed.forEach(file => {
+                context.dispatch('processFile', file.id)
             });
-            context.commit('setProcessing', index, true);
-            imgWorker.onmessage = (e) => {
-                context.commit('setProcessing', index, false);
-                let status = e.data.status;
-                if (status === "processed") {
-                    context.commit('setProcessed', index, true);
-                    context.commit('setOutput', index, e.data.output);
-                } else {
-                    context.commit('setFailed', index, true);
-                }
-            };
+        },
+        processFile(context, id) {
+
+            let file = context.state.files.find(file => file.id == id);
+
+            context.state.worker.postMessage({
+                action: 'process',
+                file: file.ogFile,
+                id: file.id,
+            });
+            context.commit('setProcessing', id, true);
         }
     },
     modules: {
