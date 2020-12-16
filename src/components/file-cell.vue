@@ -17,8 +17,7 @@ div {
     <div class="hello">
         <p>{{file.id}}</p>
         <p>{{file.name}}</p>
-        <p>processing: {{file.processing}}</p>
-        <p>done: {{file.processed}}</p>
+        <p>processing: {{file.status}}</p>
         <img v-if="blobURL !== null" :src="blobURL" alt="">
     </div>
 </template>

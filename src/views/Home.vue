@@ -64,7 +64,6 @@ export default {
         FileCell,
     },
     created() {
-        // only used to load the worker
         this.$store.dispatch("loadWorker");
     },
 };

@@ -7,6 +7,7 @@
 </template>
 
 <style lang="scss">
+@import 'src/styles/_normalize';
 @import 'src/styles/_utilities';
 body {
     font-family: Ubuntu, Helvetica, Arial, sans-serif;
