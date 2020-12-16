@@ -3,18 +3,20 @@ import { MagickFormat } from "@imagemagick/magick-wasm/magick-format";
 
 
 onmessage = e => {
-    let data = e.data;
-    let message = data.action;
+    let payload = e.data;
+    let action = payload.action;
 
-    if (message === "load") {
+    if (action === "load") {
         postMessage({
             status: "loaded"
         });
-    } else if (message === "process") {
+    } else if (action === "process") {
 
         console.log("hello");
+        console.log(payload.id);
 
-        let file = data.file;
+
+        let file = payload.file;
         let extension = "jpg";
 
         file.arrayBuffer().then((d) => {
@@ -34,7 +36,7 @@ onmessage = e => {
                             status: "processed",
                             output: blob,
                             extension: extension,
-                            id: data.id,
+                            id: payload.id,
                         });
 
                     }, MagickFormat.Png);

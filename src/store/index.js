@@ -11,21 +11,21 @@ export default createStore({
         addFile(state, fileObject) {
             state.files.push(fileObject);
         },
-        setOutput(state, id, output) {
+        setOutput(state, { id, output }) {
             let file = state.files.find(file => file.id == id);
             file.output = output;
         },
-        setProcessing(state, id, isProcessing) {
+        setProcessing(state, { id, isProcessing }) {
             let file = state.files.find(file => file.id == id);
             file.processing = isProcessing;
         },
-        setProcessed(state, id, isProcessed) {
+        setProcessed(state, { id, hasProcessed }) {
             let file = state.files.find(file => file.id == id);
-            file.processed = isProcessed;
+            file.processed = hasProcessed;
         },
-        setFailed(state, id, isFailed) {
+        setFailed(state, { id, hasFailed }) {
             let file = state.files.find(file => file.id == id);
-            file.failed = isFailed;
+            file.failed = hasFailed;
         },
         incrementId(state) {
             state.nextIndex++;
@@ -35,7 +35,7 @@ export default createStore({
         }
     },
     actions: {
-        async loadWorker(context) {
+        loadWorker(context) {
             let imgWorker = new Worker();
             this.state.worker = imgWorker;
 
@@ -47,10 +47,10 @@ export default createStore({
                 if (status === 'loaded') {
                     console.log('loaded');
                 } else if (status === 'processed') {
-                    context.commit('setProcessed', e.data.id, true);
-                    context.commit('setOutput', e.data.id, e.data.output);
+                    context.commit('setProcessed', { id: e.data.id, hasProcessed: true });
+                    context.commit('setOutput', { id: e.data.id, output: e.data.output });
                 } else if (status === 'failed') {
-                    context.commit('setFailed', e.data.id, true);
+                    context.commit('setFailed', { id: e.data.id, hasFailed: true });
                 }
             };
         },
@@ -88,7 +88,7 @@ export default createStore({
                 file: file.ogFile,
                 id: file.id,
             });
-            context.commit('setProcessing', id, true);
+            context.commit('setProcessing', { id: id, isProcessing: true });
         }
     },
     modules: {
