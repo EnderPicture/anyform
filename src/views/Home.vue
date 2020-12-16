@@ -25,6 +25,13 @@ h1 {
         font-weight: 900;
     }
 }
+.files {
+    @include mid-width;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 10rem;
+    gap: 0.5rem;
+}
 </style>
 
 <template>
@@ -33,11 +40,13 @@ h1 {
         <input @change="input" type="file" name="thing" id="" multiple />
         <p>Add Images Here</p>
     </label>
-    <file-cell
-        v-for="file in files"
-        :key="file.name"
-        :file="file"
-    ></file-cell>
+    <div class="files">
+        <file-cell
+            v-for="file in files"
+            :key="file.name"
+            :file="file"
+        ></file-cell>
+    </div>
     <button @click="process">process</button>
 </template>
 
@@ -58,7 +67,7 @@ export default {
         },
         process() {
             this.$store.dispatch("processAllFiles");
-        }
+        },
     },
     components: {
         FileCell,
