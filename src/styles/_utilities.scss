@@ -1,0 +1,10 @@
+$alBlack: #222;
+$black: #000;
+$alWhite: #ddd;
+$white: #fff;
+
+@mixin mid-width {
+    max-width: 50rem;
+    margin-right: auto;
+    margin-left: auto;
+}
