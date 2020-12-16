@@ -7,8 +7,11 @@
 </template>
 
 <style lang="scss">
-@import 'src/styles/_normalize';
-@import 'src/styles/_utilities';
+@import "src/styles/_normalize";
+@import "src/styles/_utilities";
+* {
+    box-sizing: border-box;
+}
 body {
     font-family: Ubuntu, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -17,5 +20,16 @@ body {
     color: $alWhite;
     background-color: $alBlack;
     margin: 0;
+    margin-bottom: 10rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

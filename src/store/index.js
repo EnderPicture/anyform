@@ -79,8 +79,9 @@ export default createStore({
             context.dispatch('processAllWaiting');
         },
         processAllWaiting(context) {
+            let processesRunning = context.state.files.filter(file => file.status === FILE_STATUS.processing).length;
             // run as many threads as possible
-            for (let i = 0; i < navigator.hardwareConcurrency; i++) {
+            for (let i = 0; i < navigator.hardwareConcurrency - processesRunning; i++) {
                 let waitingFile = context.state.files.find(file => file.status === FILE_STATUS.waiting);
                 if (waitingFile === undefined) break;
 

@@ -16,6 +16,10 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    padding: 1rem;
     > input {
         display: none;
     }
@@ -29,8 +33,38 @@ h1 {
     @include mid-width;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 20rem;
-    gap: 0.5rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.process {
+    @include mid-width;
+    display: block;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    border: none;
+    background-color: $alWhite;
+    border-radius: 0.5rem;
+    height: 3rem;
+    color: $alBlack;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.list-item {
+    transition: all 0.8s ease;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateY(-1rem);
+}
+
+.list-leave-active {
+    position: absolute;
 }
 </style>
 
@@ -41,23 +75,36 @@ h1 {
         <p>Add Images Here</p>
     </label>
     <div class="files">
-        <file-cell
-            v-for="file in files"
-            :key="file.name"
-            :file="file"
-        ></file-cell>
+        <transition-group name="list">
+            <file-cell
+                v-for="file in files"
+                class="list-item"
+                :key="file.id"
+                :file="file"
+            ></file-cell>
+        </transition-group>
     </div>
-    <button @click="process">process</button>
+    <transition name="fade">
+        <button v-if="nonProcessed.length > 0" class="process" @click="process">
+            process
+        </button>
+    </transition>
 </template>
 
 <script>
 import FileCell from "@/components/file-cell.vue";
+import { FILE_STATUS } from "@/js/constants";
 
 export default {
     name: "App",
     computed: {
         files() {
             return this.$store.state.files;
+        },
+        nonProcessed() {
+            return this.files.filter(
+                (file) => file.status === FILE_STATUS.initialized
+            );
         },
     },
     methods: {

@@ -9,15 +9,21 @@
     border-radius: 0.5rem;
     overflow: hidden;
 
+    height: 5rem;
+    &_has-image {
+        height: 15rem;
+    }
+
     .overlay {
         @include abs-overlay;
-        z-index: 1;
+        z-index: 10;
         bottom: 0;
         top: initial;
         height: auto;
         display: flex;
         background-color: rgba($alBlack, 0.5);
         padding: 0.5rem 1rem;
+        display: flex;
         backdrop-filter: blur(10px);
         > p {
             margin: 0;
@@ -53,7 +59,7 @@
     .failed {
         @include abs-overlay;
         z-index: 0;
-        background-color: $error;
+        background-color: $negative;
         font-size: 10rem;
         display: flex;
         align-items: center;
@@ -70,14 +76,26 @@
 }
 </style>
 <template>
-    <div class="file">
-        <div v-if="file.status === FILE_STATUS.failed" class="failed">!</div>
-        <div v-if="file.status === FILE_STATUS.processing" class="processing"></div>
+    <div :class="{ file: true, 'file_has-image': doneProcessing }">
+        <transition name="fade">
+            <div v-if="file.status === FILE_STATUS.failed" class="failed">
+                !
+            </div>
+        </transition>
+        <transition name="fade">
+            <div
+                v-if="file.status === FILE_STATUS.processing"
+                class="processing"
+            ></div>
+        </transition>
+        <transition name="fade">
+            <div v-if="blobURL !== null" class="image">
+                <img v-if="blobURL !== null" :src="blobURL" alt="" />
+            </div>
+        </transition>
+
         <div class="overlay">
             <p>{{ file.name }}</p>
-        </div>
-        <div v-if="blobURL !== null" class="image">
-            <img v-if="blobURL !== null" :src="blobURL" alt="" />
         </div>
     </div>
 </template>
@@ -101,6 +119,9 @@ export default {
                 return null;
             }
         },
+        doneProcessing() {
+            return this.file.status === FILE_STATUS.processed || this.file.status === FILE_STATUS.failed
+        }
     },
 };
 </script>

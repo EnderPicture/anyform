@@ -3,7 +3,8 @@ $black: #000;
 $alWhite: #ddd;
 $white: #fff;
 
-$error: #b71c1c;
+$negative: #b71c1c;
+$positive: #1B5E20;
 
 @mixin mid-width {
     max-width: 50rem;
