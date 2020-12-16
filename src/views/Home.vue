@@ -29,7 +29,7 @@ h1 {
     @include mid-width;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 10rem;
+    grid-auto-rows: 20rem;
     gap: 0.5rem;
 }
 </style>

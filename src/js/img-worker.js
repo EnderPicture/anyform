@@ -43,7 +43,10 @@ onmessage = e => {
 
                 });
             }).catch(err => {
-                console.error(err);
+                postMessage({
+                    status: "failed",
+                    id: payload.id,
+                });
             });
         });
 
