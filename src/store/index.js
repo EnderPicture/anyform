@@ -101,7 +101,7 @@ export default createStore({
             });
         },
         processAllFiles(context) {
-            let notProcessed = context.state.files.filter(file => !file.processed);
+            let notProcessed = context.state.files.filter(file => file.status === FILE_STATUS.initialized);
             notProcessed.forEach(file => {
                 context.commit('setStatus', { id: file.id, status: FILE_STATUS.waiting });
             });
