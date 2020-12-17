@@ -1,0 +1,77 @@
+<style scoped lang="scss">
+@import "src/styles/_utilities";
+
+.selector-con {
+    @include mid-width;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+}
+.selector {
+    input {
+        display: none;
+    }
+    .select {
+        padding: 0.5rem 1rem;
+        background-color: lighten($alBlack, 10);
+        border-radius: 0.5rem;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        opacity: .5;
+        transition: all .2s ease;
+    }
+    input:checked ~ .select {
+        
+        padding: 0.5rem 2rem;
+        opacity: 1;
+    }
+}
+.desc {
+    margin-bottom: 1rem;
+    margin: 0;
+}
+</style>
+<template>
+    <div class="selector-con">
+        <label class="selector" v-for="format in formats" :key="format.name">
+            <input
+                name="format"
+                :value="format"
+                v-model="selectedFormat"
+                type="radio"
+            />
+            <div class="select">
+                {{ format.name }}
+            </div>
+        </label>
+    </div>
+    <p class="desc">converts all images to .{{selectedFormat.extension}}</p>
+</template>
+
+<script>
+import { FILE_STATUS } from "@/js/constants";
+
+export default {
+    name: "formatSelector",
+    data() {
+        return {
+            selectedFormat: null,
+        };
+    },
+    computed: {
+        formats() {
+            return this.$store.state.formats;
+        },
+    },
+    watch: {
+        selectedFormat() {
+            this.$store.commit("setFormat", this.selectedFormat);
+        },
+    },
+    created() {
+        this.selectedFormat = this.formats[0];
+    },
+};
+</script>

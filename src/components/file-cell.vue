@@ -21,12 +21,19 @@
         top: initial;
         height: auto;
         display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         background-color: rgba($alBlack, 0.5);
         padding: 0.5rem 1rem;
         display: flex;
         backdrop-filter: blur(10px);
         > p {
             margin: 0;
+        }
+        .download {
+            color: $alWhite;
+            text-decoration: none;
+            padding-top: .5rem;
         }
     }
     .image {
@@ -36,6 +43,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            object-position: 50% 0%;
         }
     }
 
@@ -93,9 +101,17 @@
                 <img v-if="blobURL !== null" :src="blobURL" alt="" />
             </div>
         </transition>
+        <transition name="fade"> </transition>
 
         <div class="overlay">
             <p>{{ file.name }}</p>
+            <a
+                class="download"
+                v-if="newFileName !== null"
+                :href="blobURL"
+                :download="newFileName"
+                >download {{newFileName}}</a
+            >
         </div>
     </div>
 </template>
@@ -119,9 +135,26 @@ export default {
                 return null;
             }
         },
+        newFileName() {
+            if (this.file.status === FILE_STATUS.processed) {
+                return (
+                    this.file.name
+                        .split(".")
+                        .slice(0, -1)
+                        .join(".") +
+                    "." +
+                    this.file.config.format.extension
+                );
+            } else {
+                return null;
+            }
+        },
         doneProcessing() {
-            return this.file.status === FILE_STATUS.processed || this.file.status === FILE_STATUS.failed
-        }
+            return (
+                this.file.status === FILE_STATUS.processed ||
+                this.file.status === FILE_STATUS.failed
+            );
+        },
     },
 };
 </script>

@@ -12,25 +12,25 @@ export default createStore({
         formats: [
             {
                 name: 'jpeg',
-                extention: 'jpg',
+                extension: 'jpg',
                 magickFormat: MagickFormat.Jpg,
             },
             {
                 name: 'png',
-                extention: 'png',
+                extension: 'png',
                 magickFormat: MagickFormat.Png,
             },
         ],
 
         config: {
             format: null,
+            fileEnding: '-anyform'
         }
     },
     mutations: {
 
         setFormat(state, format) {
             state.config.format = format;
-            console.log(format);
         },
         // files
         addFile(state, fileObject) {

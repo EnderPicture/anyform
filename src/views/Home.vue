@@ -91,17 +91,8 @@ h1 {
         <input @change="input" type="file" name="thing" id="" multiple />
         <p>Add Images Here</p>
     </label>
-    <div>
-        <label v-for="format in formats" :key="format.name">
-            {{ format.name }}
-            <input
-                name="format"
-                :value="format"
-                v-model="selectedFormat"
-                type="radio"
-            />
-        </label>
-    </div>
+    <format-selector></format-selector>
+
     <div class="files">
         <transition-group name="list">
             <file-cell
@@ -125,32 +116,21 @@ h1 {
 
 <script>
 import FileCell from "@/components/file-cell.vue";
+import FormatSelector from "@/components/format-selector.vue";
 import { FILE_STATUS } from "@/js/constants";
 
 export default {
     name: "App",
-    data() {
-        return {
-            selectedFormat: null,
-        };
-    },
     computed: {
         files() {
             return this.$store.state.files;
         },
-        formats() {
-            return this.$store.state.formats;
-        },
+
         nonProcessed() {
             return this.files.filter(
                 (file) => file.status === FILE_STATUS.initialized
             );
         },
-    },
-    watch: {
-        selectedFormat() {
-            this.$store.commit('setFormat', this.selectedFormat);
-        }
     },
     methods: {
         input(e) {
@@ -165,10 +145,10 @@ export default {
     },
     components: {
         FileCell,
+        FormatSelector,
     },
     created() {
         this.$store.dispatch("loadWorker");
-        this.selectedFormat = this.formats[0];
     },
 };
 </script>
