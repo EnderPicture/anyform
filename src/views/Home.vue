@@ -94,7 +94,12 @@ h1 {
     <div>
         <label v-for="format in formats" :key="format.name">
             {{ format.name }}
-            <input name="format" :value="format" v-model="selectedFormat" type="radio" />
+            <input
+                name="format"
+                :value="format"
+                v-model="selectedFormat"
+                type="radio"
+            />
         </label>
     </div>
     <div class="files">
@@ -127,7 +132,7 @@ export default {
     data() {
         return {
             selectedFormat: null,
-        }
+        };
     },
     computed: {
         files() {
@@ -142,13 +147,20 @@ export default {
             );
         },
     },
+    watch: {
+        selectedFormat() {
+            this.$store.commit('setFormat', this.selectedFormat);
+        }
+    },
     methods: {
         input(e) {
             let target = e.target;
             this.$store.dispatch("addFiles", target.files);
         },
         process() {
-            this.$store.dispatch("processAllFiles");
+            this.$store.dispatch("processAllFiles", {
+                format: this.selectedFormat,
+            });
         },
     },
     components: {

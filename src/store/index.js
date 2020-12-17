@@ -12,28 +12,42 @@ export default createStore({
         formats: [
             {
                 name: 'jpeg',
-                extention: '.jpg',
+                extention: 'jpg',
                 magickFormat: MagickFormat.Jpg,
             },
             {
                 name: 'png',
-                extention: '.png',
+                extention: 'png',
                 magickFormat: MagickFormat.Png,
             },
-        ]
+        ],
+
+        config: {
+            format: null,
+        }
     },
     mutations: {
+
+        setFormat(state, format) {
+            state.config.format = format;
+            console.log(format);
+        },
+        // files
         addFile(state, fileObject) {
             state.files.push(fileObject);
         },
-        setOutput(state, { id, output }) {
+        setData(state, { id, data }) {
             let file = state.files.find(file => file.id === id);
-            file.output = output;
+            file.output = data.output;
+            file.config = data.config;
         },
         setStatus(state, { id, status }) {
             let file = state.files.find(file => file.id === id);
             file.status = status;
         },
+
+
+        // others
         incrementId(state) {
             state.nextIndex++;
         },
@@ -56,7 +70,7 @@ export default createStore({
                     console.log('loaded');
                 } else if (status === 'processed') {
                     context.commit('setStatus', { id: e.data.id, status: FILE_STATUS.processed });
-                    context.commit('setOutput', { id: e.data.id, output: e.data.output });
+                    context.commit('setData', { id: e.data.id, data: e.data });
                     processMore = true;
                 } else if (status === 'failed') {
                     context.commit('setStatus', { id: e.data.id, status: FILE_STATUS.failed });
@@ -75,6 +89,7 @@ export default createStore({
                 name: file.name,
                 status: FILE_STATUS.initialized,
                 output: null,
+                config: null,
                 process: [],
             }
             context.commit('incrementId');
@@ -106,10 +121,14 @@ export default createStore({
 
             let file = context.state.files.find(file => file.id === id);
 
+            let config = clone(context.state.config);
+
+
             context.state.worker.postMessage({
                 action: 'process',
                 file: file.ogFile,
                 id: file.id,
+                config: config,
             });
             context.commit('setStatus', { id: id, status: FILE_STATUS.processing });
         }
@@ -117,3 +136,7 @@ export default createStore({
     modules: {
     }
 })
+
+function clone(object) {
+    return JSON.parse(JSON.stringify(object));
+}

@@ -12,12 +12,11 @@ onmessage = e => {
         });
     } else if (action === "process") {
 
-        console.log("hello");
-        console.log(payload.id);
 
 
         let file = payload.file;
-        let extension = "jpg";
+        let config = payload.config;
+        let extension = config.format.extension;
 
         file.arrayBuffer().then((d) => {
 
@@ -35,11 +34,11 @@ onmessage = e => {
                         postMessage({
                             status: "processed",
                             output: blob,
-                            extension: extension,
+                            config: config,
                             id: payload.id,
                         });
 
-                    }, MagickFormat.Jpg);
+                    }, config.format.magickFormat);
 
                 });
             }).catch(err => {
