@@ -1,14 +1,14 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "97ae3510e7dcdeb21a32d0386fa3f61f",
-    "url": "/anyform/manifest.json"
+    "url": "//manifest.json"
   },
   {
     "revision": "d6603893fedba5b14101",
     "url": "/css/app.4879f88d.css"
   },
   {
-    "revision": "40172a0fef882eebc41f910f85dffe5c",
+    "revision": "a36d926ea2058def9e0c8e21a59f1df4",
     "url": "/index.html"
   },
   {
