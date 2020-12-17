@@ -7,6 +7,10 @@ h1 {
     text-shadow: 0 2px 2px rgba($alWhite, 0.25), 0 4px 4px rgba($alWhite, 0.25),
         0 8px 8px rgba($alWhite, 0.25), 0 16px 16px rgba($alWhite, 0.25),
         0 32px 32px rgba($alWhite, 0.25);
+
+    @media screen and (max-width: $mobile-break) {
+        font-size: 3rem;
+    }
 }
 .file-input {
     @include mid-width;
@@ -35,20 +39,32 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin-bottom: 1rem;
+
+    @media screen and (max-width: $mobile-break) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 .process {
-    @include mid-width;
-    display: block;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    border: none;
-    background-color: $alWhite;
-    border-radius: 0.5rem;
-    height: 3rem;
-    color: $alBlack;
-    font-size: 1rem;
-    font-weight: 900;
+    &__mid {
+        @include mid-width;
+        > button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: none;
+            background-color: $alWhite;
+            border-radius: .5rem .5rem 0 0;
+            height: 3rem;
+            color: $alBlack;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+    }
 }
 
 .list-item {
@@ -84,10 +100,14 @@ h1 {
             ></file-cell>
         </transition-group>
     </div>
-    <transition name="fade">
-        <button v-if="nonProcessed.length > 0" class="process" @click="process">
-            process
-        </button>
+    <transition name="fade" tag="div">
+        <div class="process">
+            <div class="process__mid">
+                <button v-if="nonProcessed.length > 0" @click="process">
+                    process
+                </button>
+            </div>
+        </div>
     </transition>
 </template>
 

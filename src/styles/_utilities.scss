@@ -6,10 +6,35 @@ $white: #fff;
 $negative: #b71c1c;
 $positive: #1B5E20;
 
+$tablet-break: 56rem;
+$mobile-break: 35rem; 
+
 @mixin mid-width {
-    max-width: 50rem;
+    width: 50rem;
     margin-right: auto;
     margin-left: auto;
+    
+    @media screen and (max-width: $tablet-break){
+        width: auto;
+        margin-right: 3rem;
+        margin-left: 3rem;
+    }
+    @media screen and (max-width: $mobile-break){
+        width: auto;
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+}
+@mixin flex-mid-width {
+    max-width: 60vw;
+    min-width: 50rem;
+    margin-right: auto;
+    margin-left: auto;
+    
+    @media screen and (max-width: $tablet-break){
+        margin-right: 3rem;
+        margin-left: 3rem;
+    }
 }
 
 @mixin abs-overlay {
