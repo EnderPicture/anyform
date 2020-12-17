@@ -8,6 +8,6 @@ module.exports = {
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
 
-        manifestPath: 'anyform/manifest.json',
+        manifestPath: '/manifest.json',
     }
 }
