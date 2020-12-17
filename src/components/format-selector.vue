@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: .5rem;
+    margin-bottom: 0;
 }
 .selector {
     input {
@@ -17,18 +17,18 @@
         padding: 0.5rem 1rem;
         background-color: lighten($alBlack, 10);
         border-radius: 0.5rem;
-        margin-right: 0.5rem;
-        margin-left: 0.5rem;
-        opacity: .5;
-        transition: all .2s ease;
+        margin: 0 0.25rem 0.5rem 0.25rem;
+        opacity: 0.5;
+        transition: all 0.2s ease;
     }
     input:checked ~ .select {
-        
         padding: 0.5rem 2rem;
         opacity: 1;
     }
 }
 .desc {
+    @include mid-width;
+
     margin: 0;
     margin-bottom: 1rem;
 }
@@ -47,7 +47,11 @@
             </div>
         </label>
     </div>
-    <p class="desc">converts all images to {{selectedFormat.name}} with extension .{{selectedFormat.extension}}</p>
+    <p class="desc">
+        converts all images to {{ selectedFormat.name }} with extension .{{
+            selectedFormat.extension
+        }}
+    </p>
 </template>
 
 <script>
