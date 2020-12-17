@@ -8,6 +8,10 @@ module.exports = {
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
 
+        manifestOptions: {
+            start_url: '/'
+        },
+
         manifestPath: '/manifest.json',
     }
 }
