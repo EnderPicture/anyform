@@ -1,17 +1,17 @@
 // Inside vue.config.js
 module.exports = {
-    // ...other vue-cli plugin options...
+    publicPath: process.env.NODE_ENV === 'production' ? '/anyform/' : '/',
     pwa: {
-        name: 'anyform',
-        themeColor: '#4DBA87',
-        msTileColor: '#000000',
-        appleMobileWebAppCapable: 'yes',
-        appleMobileWebAppStatusBarStyle: 'black',
+            name: 'anyform',
+        //     themeColor: '#4DBA87',
+        //     msTileColor: '#000000',
+        //     appleMobileWebAppCapable: 'yes',
+        //     appleMobileWebAppStatusBarStyle: 'black',
 
-        manifestOptions: {
-            start_url: '/'
-        },
+        // manifestOptions: {
+        //     start_url: './dist/'
+        // },
 
-        manifestPath: '/manifest.json',
+        // manifestPath: './dist/manifest.json',
     }
 }
