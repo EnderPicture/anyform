@@ -20,11 +20,30 @@ export default createStore({
                 extension: 'png',
                 magickFormat: MagickFormat.Png,
             },
+            {
+                name: 'tiff',
+                extension: 'tif',
+                magickFormat: MagickFormat.Tif,
+            },
+            {
+                name: 'webp',
+                extension: 'webp',
+                magickFormat: MagickFormat.Webp,
+            },
+            {
+                name: 'gif',
+                extension: 'gif',
+                magickFormat: MagickFormat.Gif,
+            },
+            {
+                name: 'bmp',
+                extension: 'bmp',
+                magickFormat: MagickFormat.Bmp,
+            },
         ],
 
         config: {
             format: null,
-            fileEnding: '-anyform'
         }
     },
     mutations: {

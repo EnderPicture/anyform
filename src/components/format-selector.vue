@@ -29,8 +29,8 @@
     }
 }
 .desc {
-    margin-bottom: 1rem;
     margin: 0;
+    margin-bottom: 1rem;
 }
 </style>
 <template>
@@ -47,7 +47,7 @@
             </div>
         </label>
     </div>
-    <p class="desc">converts all images to .{{selectedFormat.extension}}</p>
+    <p class="desc">converts all images to {{selectedFormat.name}} with extension .{{selectedFormat.extension}}</p>
 </template>
 
 <script>

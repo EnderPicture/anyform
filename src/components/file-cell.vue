@@ -33,7 +33,7 @@
         .download {
             color: $alWhite;
             text-decoration: none;
-            padding-top: .5rem;
+            padding-top: 0.5rem;
         }
     }
     .image {
@@ -110,7 +110,7 @@
                 v-if="newFileName !== null"
                 :href="blobURL"
                 :download="newFileName"
-                >download {{newFileName}}</a
+                >download {{ newFileName }}</a
             >
         </div>
     </div>

@@ -23,11 +23,11 @@ onmessage = e => {
             initializeImageMagick().then(async () => {
 
                 ImageMagick.read(new Uint8Array(d), (image) => {
-                    console.log(image);
+                    // console.log(image);
                     // image.resize(100, 100);
                     // image.blur(1, 5);
 
-                    console.log(image.toString());
+                    // console.log(image.toString());
 
                     image.write(data => {
                         let blob = new Blob([data], { type: `image/${extension}` });
