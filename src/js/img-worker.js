@@ -39,7 +39,7 @@ onmessage = e => {
                             id: payload.id,
                         });
 
-                    }, MagickFormat.Png);
+                    }, MagickFormat.Jpg);
 
                 });
             }).catch(err => {

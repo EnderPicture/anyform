@@ -49,6 +49,7 @@ h1 {
     bottom: 0;
     left: 0;
     width: 100%;
+    z-index: 20;
     &__mid {
         @include mid-width;
         > button {
@@ -58,7 +59,7 @@ h1 {
             width: 100%;
             border: none;
             background-color: $alWhite;
-            border-radius: .5rem .5rem 0 0;
+            border-radius: 0.5rem 0.5rem 0 0;
             height: 3rem;
             color: $alBlack;
             font-size: 1rem;
@@ -90,6 +91,12 @@ h1 {
         <input @change="input" type="file" name="thing" id="" multiple />
         <p>Add Images Here</p>
     </label>
+    <div>
+        <label v-for="format in formats" :key="format.name">
+            {{ format.name }}
+            <input name="format" :value="format" v-model="selectedFormat" type="radio" />
+        </label>
+    </div>
     <div class="files">
         <transition-group name="list">
             <file-cell
@@ -117,9 +124,17 @@ import { FILE_STATUS } from "@/js/constants";
 
 export default {
     name: "App",
+    data() {
+        return {
+            selectedFormat: null,
+        }
+    },
     computed: {
         files() {
             return this.$store.state.files;
+        },
+        formats() {
+            return this.$store.state.formats;
         },
         nonProcessed() {
             return this.files.filter(
@@ -141,6 +156,7 @@ export default {
     },
     created() {
         this.$store.dispatch("loadWorker");
+        this.selectedFormat = this.formats[0];
     },
 };
 </script>

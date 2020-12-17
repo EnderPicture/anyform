@@ -1,12 +1,26 @@
 import { createStore } from 'vuex';
 import Worker from 'worker-loader!@/js/img-worker';
 import { FILE_STATUS } from '@/js/constants';
+import { MagickFormat } from "@imagemagick/magick-wasm/magick-format";
 
 export default createStore({
     state: {
         files: [],
         nextIndex: 0,
         worker: null,
+
+        formats: [
+            {
+                name: 'jpeg',
+                extention: '.jpg',
+                magickFormat: MagickFormat.Jpg,
+            },
+            {
+                name: 'png',
+                extention: '.png',
+                magickFormat: MagickFormat.Png,
+            },
+        ]
     },
     mutations: {
         addFile(state, fileObject) {
