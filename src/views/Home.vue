@@ -58,12 +58,15 @@ h1 {
     }
 }
 .files {
-    @include mid-width;
+    @include mid-width-flex;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin-bottom: 1rem;
 
+    @media screen and (max-width: $tablet-break) {
+        grid-template-columns: repeat(2, 1fr);
+    }
     @media screen and (max-width: $mobile-break) {
         grid-template-columns: repeat(1, 1fr);
     }
@@ -90,6 +93,22 @@ h1 {
             font-weight: 900;
         }
     }
+}
+
+.drop-target {
+    @include abs-overlay;
+    position: fixed;
+    z-index: 100;
+    margin: 0;
+    background-color: rgba($alBlack, 0.75);
+    box-shadow: inset 0 0 200px $alWhite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    font-weight: 900;
+    pointer-events: none;
+    overflow: hidden;
 }
 
 .list-item {
@@ -129,7 +148,7 @@ h1 {
             ></file-cell>
         </transition-group>
     </div>
-    <transition name="fade" tag="div">
+    <transition name="fade">
         <div class="process" v-if="nonProcessed.length > 0">
             <div class="process__mid">
                 <button @click="process">
@@ -137,6 +156,9 @@ h1 {
                 </button>
             </div>
         </div>
+    </transition>
+    <transition name="fade">
+        <p v-if="fileInDropZone > 0" class="drop-target">Drop Here</p>
     </transition>
 </template>
 
@@ -147,6 +169,11 @@ import { FILE_STATUS } from "@/js/constants";
 
 export default {
     name: "App",
+    data() {
+        return {
+            fileInDropZone: 0,
+        };
+    },
     computed: {
         files() {
             return this.$store.state.files;
@@ -166,17 +193,21 @@ export default {
         fileDrop(e) {
             e.preventDefault();
             this.$store.dispatch("addFiles", e.dataTransfer.files);
+            this.fileInDropZone = false;
         },
         fileOver(e) {
             e.preventDefault();
         },
         fileEnter(e) {
             e.preventDefault();
-            console.log("enter");
+            this.fileInDropZone++;
         },
         fileLeave(e) {
             e.preventDefault();
-            console.log("exit");
+            this.fileInDropZone--;
+        },
+        stopProp(e) {
+            e.stopPropagation();
         },
         process() {
             this.$store.dispatch("processAllFiles", {

@@ -26,7 +26,7 @@
         background-color: rgba($alBlack, 0.5);
         padding: 0.5rem 1rem;
         display: flex;
-        backdrop-filter: blur(10px);
+        // backdrop-filter: blur(10px);
         > p {
             margin: 0;
         }
@@ -110,7 +110,7 @@
                 v-if="newFileName !== null"
                 :href="blobURL"
                 :download="newFileName"
-                >download {{ newFileName }}</a
+                >download: {{ newFileName }}</a
             >
         </div>
     </div>
@@ -129,7 +129,6 @@ export default {
         },
         blobURL() {
             if (this.file.output !== null && this.file.output !== undefined) {
-                console.log(this.file.output);
                 return URL.createObjectURL(this.file.output);
             } else {
                 return null;

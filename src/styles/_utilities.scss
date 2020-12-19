@@ -4,36 +4,44 @@ $alWhite: #ddd;
 $white: #fff;
 
 $negative: #b71c1c;
-$positive: #1B5E20;
+$positive: #1b5e20;
 
 $tablet-break: 56rem;
-$mobile-break: 35rem; 
+$mobile-break: 35rem;
 
 @mixin mid-width {
     width: 50rem;
     margin-right: auto;
     margin-left: auto;
-    
-    @media screen and (max-width: $tablet-break){
+
+    @media screen and (max-width: $tablet-break) {
         width: auto;
         margin-right: 3rem;
         margin-left: 3rem;
     }
-    @media screen and (max-width: $mobile-break){
+    @media screen and (max-width: $mobile-break) {
         width: auto;
         margin-right: 1rem;
         margin-left: 1rem;
     }
 }
-@mixin flex-mid-width {
+@mixin mid-width-flex {
     max-width: 60vw;
     min-width: 50rem;
     margin-right: auto;
     margin-left: auto;
-    
-    @media screen and (max-width: $tablet-break){
+
+    @media screen and (max-width: $tablet-break) {
+        min-width: initial;
+        max-width: initial;
+        width: auto;
         margin-right: 3rem;
         margin-left: 3rem;
+    }
+    @media screen and (max-width: $mobile-break) {
+        width: auto;
+        margin-right: 1rem;
+        margin-left: 1rem;
     }
 }
 

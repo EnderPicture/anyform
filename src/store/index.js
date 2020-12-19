@@ -114,10 +114,11 @@ export default createStore({
             context.commit('incrementId');
             context.commit('addFile', fileObject);
         },
-        addFiles(context, files) {
-            files.forEach((file) => {
-                context.dispatch('addFile', file);
-            });
+        async addFiles(context, files) {
+            for (let i = 0; i < files.length; i++) {
+                context.dispatch('addFile', files[i]);
+                await new Promise(r => setTimeout(r, 16));
+            }
         },
         processAllFiles(context) {
             let notProcessed = context.state.files.filter(file => file.status === FILE_STATUS.initialized);
