@@ -10,20 +10,43 @@
     margin-bottom: 0;
 }
 .selector {
+    position: relative;
+    margin: 0 0.25rem 0.5rem 0.25rem;
     input {
-        display: none;
+        position: absolute;
+        z-index: -1;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        display: block;
+        margin: 0;
+        padding: 0;
+        // visibility: hidden;
     }
     .select {
         padding: 0.5rem 1rem;
         background-color: lighten($alBlack, 10);
         border-radius: 0.5rem;
-        margin: 0 0.25rem 0.5rem 0.25rem;
         opacity: 0.5;
         transition: all 0.2s ease;
+        transition: 0.6s ease, padding 0.2s ease;
+        &:hover {
+            transition: 0.2s ease;
+            transform: scale(1.1);
+            opacity: 1;
+            cursor: pointer;
+        }
     }
-    input:checked ~ .select {
+    input:checked + .select {
         padding: 0.5rem 2rem;
         opacity: 1;
+        pointer-events: none;
+    }
+    input:focus + .select {
+        transition: 0.2s ease;
+        transform: scale(1.1);
+        opacity: 1;
+        cursor: pointer;
     }
 }
 .desc {
@@ -55,8 +78,6 @@
 </template>
 
 <script>
-import { FILE_STATUS } from "@/js/constants";
-
 export default {
     name: "formatSelector",
     data() {

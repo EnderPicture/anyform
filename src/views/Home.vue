@@ -16,21 +16,44 @@ h1 {
     @include mid-width;
     display: block;
     height: 5rem;
-    background-color: $alWhite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: rgba($alWhite, 0.5);
     margin-bottom: 1rem;
+    position: relative;
+    color: $alBlack;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: 0 0px 0 0 rgba($alWhite, 0.5);
     border-radius: 0.5rem;
-    overflow: hidden;
-    padding: 1rem;
-    > input {
-        display: none;
+    > div {
+        transition: 0.6s ease;
+        border-radius: 0.5rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $alWhite;
     }
-    > p {
-        color: $alBlack;
-        font-size: 1rem;
-        font-weight: 900;
+    &:hover > div {
+        cursor: pointer;
+        transform: translateY(-4px);
+        transition: 0.1s ease;
+    }
+    &:active > div {
+        cursor: pointer;
+        transform: translateY(0px);
+        transition: 0.1s ease;
+    }
+    > input {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: -1;
+    }
+    > input:focus + div {
+        cursor: pointer;
+        transform: translateY(-4px);
+        transition: 0.1s ease;
     }
 }
 .files {
@@ -89,7 +112,9 @@ h1 {
     <h1>anyform.*</h1>
     <label class="file-input">
         <input @change="input" type="file" name="thing" id="" multiple />
-        <p>Add Images Here</p>
+        <div>
+            <p>Add Images Here</p>
+        </div>
     </label>
     <format-selector></format-selector>
 
