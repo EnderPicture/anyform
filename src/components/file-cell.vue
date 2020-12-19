@@ -1,5 +1,10 @@
 <style scoped lang="scss">
 @import "src/styles/_utilities";
+
+* {
+    text-align: start;
+}
+
 .file {
     width: 100%;
     display: grid;
@@ -29,11 +34,16 @@
         // backdrop-filter: blur(10px);
         > p {
             margin: 0;
+            width: 100%;
         }
         .download {
             color: $alWhite;
             text-decoration: none;
             padding-top: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
         }
     }
     .image {
@@ -128,25 +138,29 @@ export default {
             return FILE_STATUS;
         },
         blobURL() {
-            if (this.file.output !== null && this.file.output !== undefined) {
-                return URL.createObjectURL(this.file.output);
-            } else {
-                return null;
+            let url = null;
+            if (
+                this.file.output.blob !== null &&
+                this.file.output.blob !== undefined
+            ) {
+                url = URL.createObjectURL(this.file.output.blob);
             }
+            this.$store.commit("setUrl", { id: this.file.id, url: url });
+            return url;
         },
         newFileName() {
+            let name = null;
             if (this.file.status === FILE_STATUS.processed) {
-                return (
+                name =
                     this.file.name
                         .split(".")
                         .slice(0, -1)
                         .join(".") +
                     "." +
-                    this.file.config.format.extension
-                );
-            } else {
-                return null;
+                    this.file.output.config.format.extension;
             }
+            this.$store.commit("setName", { id: this.file.id, name: name });
+            return name;
         },
         doneProcessing() {
             return (

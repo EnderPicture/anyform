@@ -51,7 +51,7 @@
 }
 .desc {
     @include mid-width;
-
+    text-align: center;
     margin-top: 0;
     margin-bottom: 1rem;
 }

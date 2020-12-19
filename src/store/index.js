@@ -57,8 +57,16 @@ export default createStore({
         },
         setData(state, { id, data }) {
             let file = state.files.find(file => file.id === id);
-            file.output = data.output;
-            file.config = data.config;
+            file.output.blob = data.output;
+            file.output.config = data.config;
+        },
+        setUrl(state, { id, url }) {
+            let file = state.files.find(file => file.id === id);
+            file.output.url = url;
+        },
+        setName(state, { id, name }) {
+            let file = state.files.find(file => file.id === id);
+            file.output.name = name;
         },
         setStatus(state, { id, status }) {
             let file = state.files.find(file => file.id === id);
@@ -107,8 +115,12 @@ export default createStore({
                 ogFile: file,
                 name: file.name,
                 status: FILE_STATUS.initialized,
-                output: null,
-                config: null,
+                output: {
+                    blob: null,
+                    name: null,
+                    url: null,
+                    config: null,
+                },
                 process: [],
             }
             context.commit('incrementId');

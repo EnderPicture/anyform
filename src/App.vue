@@ -16,7 +16,6 @@ body {
     font-family: Ubuntu, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: $alWhite;
     background-color: $alBlack;
     margin: 0;

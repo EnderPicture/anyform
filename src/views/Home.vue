@@ -10,6 +10,8 @@ h1 {
 
     margin-top: 0;
 
+    text-align: center;
+
     @media screen and (max-width: $mobile-break) {
         font-size: 3rem;
     }
@@ -71,27 +73,35 @@ h1 {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-.process {
+.bottom-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 20;
+    padding-top: 1rem;
+    background-color: rgba($alBlack, 0.5);
     &__mid {
         @include mid-width;
-        > button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            border: none;
-            background-color: $alWhite;
-            border-radius: 0.5rem 0.5rem 0 0;
-            height: 3rem;
-            color: $alBlack;
-            font-size: 1rem;
-            font-weight: 900;
+        display: flex;
+        justify-content: center;
+        > * {
+            display: inline-block;
+            &:not(:last-child) {
+                margin-right: 1rem;
+            }
         }
+    }
+    &__button {
+        border: none;
+        background-color: $alWhite;
+        border-radius: 0.5rem 0.5rem 0 0;
+        height: 3rem;
+        color: $alBlack;
+        font-size: 1rem;
+        font-weight: 900;
+        overflow: hidden;
+        padding: 1rem 2rem;
     }
 }
 
@@ -113,8 +123,6 @@ h1 {
 
 .list-item {
     transition: all 0.8s ease;
-    display: inline-block;
-    margin-right: 10px;
 }
 
 .list-enter-from,
@@ -124,6 +132,20 @@ h1 {
 }
 
 .list-leave-active {
+    position: absolute;
+}
+
+.list-down-item {
+    transition: all 0.8s ease;
+}
+
+.list-down-enter-from,
+.list-down-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.list-down-leave-active {
     position: absolute;
 }
 </style>
@@ -148,15 +170,14 @@ h1 {
             ></file-cell>
         </transition-group>
     </div>
-    <transition name="fade">
-        <div class="process" v-if="nonProcessed.length > 0">
-            <div class="process__mid">
-                <button @click="process">
-                    process
-                </button>
-            </div>
+    <div class="bottom-bar">
+        <div class="bottom-bar__mid">
+            <transition-group name="list-down">
+                <button class="bottom-bar__button list-down-item" key="3" @click="downloadAll" v-if="processed.length > 0">download</button>
+                <button class="bottom-bar__button list-down-item" key="2" @click="process" v-if="nonProcessed.length > 0">process</button>
+            </transition-group>
         </div>
-    </transition>
+    </div>
     <transition name="fade">
         <p v-if="fileInDropZone > 0" class="drop-target">Drop Here</p>
     </transition>
@@ -172,7 +193,32 @@ export default {
     data() {
         return {
             fileInDropZone: 0,
+            buttons: [
+                {
+                    name: "process",
+                    text: "process",
+                    function: this.process,
+                    show: false,
+                },
+                {
+                    name: "batch-download",
+                    text: "download all",
+                    function: this.downloadAll,
+                    show: false,
+                },
+            ],
         };
+    },
+    watch: {
+        nonProcessed(val) {
+            this.buttons.find((button) => button.name === "process").show =
+                val.length > 0;
+        },
+        processed(val) {
+            this.buttons.find(
+                (button) => button.name === "batch-download"
+            ).show = val.length > 0;
+        },
     },
     computed: {
         files() {
@@ -182,6 +228,11 @@ export default {
         nonProcessed() {
             return this.files.filter(
                 (file) => file.status === FILE_STATUS.initialized
+            );
+        },
+        processed() {
+            return this.files.filter(
+                (file) => file.status === FILE_STATUS.processed
             );
         },
     },
@@ -212,6 +263,16 @@ export default {
         process() {
             this.$store.dispatch("processAllFiles", {
                 format: this.selectedFormat,
+            });
+        },
+        downloadAll() {
+            this.files.forEach((file) => {
+                let a = document.createElement("a");
+                a.download = file.output.name;
+                a.href = file.output.url;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
             });
         },
     },
