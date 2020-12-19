@@ -8,6 +8,8 @@ h1 {
         0 8px 8px rgba($alWhite, 0.25), 0 16px 16px rgba($alWhite, 0.25),
         0 32px 32px rgba($alWhite, 0.25);
 
+    margin-top: 0;
+
     @media screen and (max-width: $mobile-break) {
         font-size: 3rem;
     }
@@ -24,7 +26,7 @@ h1 {
     font-weight: 900;
     box-shadow: 0 0px 0 0 rgba($alWhite, 0.5);
     border-radius: 0.5rem;
-    > div {
+    > .file {
         transition: 0.6s ease;
         border-radius: 0.5rem;
         height: 100%;
@@ -33,12 +35,12 @@ h1 {
         justify-content: center;
         background-color: $alWhite;
     }
-    &:hover > div {
+    &:hover > .file {
         cursor: pointer;
         transform: translateY(-4px);
         transition: 0.1s ease;
     }
-    &:active > div {
+    &:active > .file {
         cursor: pointer;
         transform: translateY(0px);
         transition: 0.1s ease;
@@ -50,8 +52,7 @@ h1 {
         transform: translate(-50%, -50%) scale(0);
         z-index: -1;
     }
-    > input:focus + div {
-        cursor: pointer;
+    > input:focus + .file {
         transform: translateY(-4px);
         transition: 0.1s ease;
     }
@@ -112,7 +113,7 @@ h1 {
     <h1>anyform.*</h1>
     <label class="file-input">
         <input @change="input" type="file" name="thing" id="" multiple />
-        <div>
+        <div class="file">
             <p>Add Images Here</p>
         </div>
     </label>
@@ -129,9 +130,9 @@ h1 {
         </transition-group>
     </div>
     <transition name="fade" tag="div">
-        <div class="process">
+        <div class="process" v-if="nonProcessed.length > 0">
             <div class="process__mid">
-                <button v-if="nonProcessed.length > 0" @click="process">
+                <button @click="process">
                     process
                 </button>
             </div>
@@ -159,8 +160,23 @@ export default {
     },
     methods: {
         input(e) {
-            let target = e.target;
-            this.$store.dispatch("addFiles", target.files);
+            this.$store.dispatch("addFiles", e.target.files);
+            e.target.value = "";
+        },
+        fileDrop(e) {
+            e.preventDefault();
+            this.$store.dispatch("addFiles", e.dataTransfer.files);
+        },
+        fileOver(e) {
+            e.preventDefault();
+        },
+        fileEnter(e) {
+            e.preventDefault();
+            console.log("enter");
+        },
+        fileLeave(e) {
+            e.preventDefault();
+            console.log("exit");
         },
         process() {
             this.$store.dispatch("processAllFiles", {
@@ -172,8 +188,19 @@ export default {
         FileCell,
         FormatSelector,
     },
-    created() {
+    mounted() {
         this.$store.dispatch("loadWorker");
+
+        document.body.addEventListener("drop", this.fileDrop);
+        document.body.addEventListener("dragover", this.fileOver);
+        document.body.addEventListener("dragenter", this.fileEnter);
+        document.body.addEventListener("dragleave", this.fileLeave);
+    },
+    unmounted() {
+        document.body.removeEventListener("drop", this.fileDrop);
+        document.body.removeEventListener("dragover", this.fileOver);
+        document.body.removeEventListener("dragenter", this.fileEnter);
+        document.body.removeEventListener("dragleave", this.fileLeave);
     },
 };
 </script>

@@ -1,8 +1,8 @@
 <template>
-    <div id="nav">
+    <!-- <div id="nav">
         <router-link to="/">Home</router-link> |
         <router-link to="/about">About</router-link>
-    </div>
+    </div> -->
     <router-view />
 </template>
 
@@ -20,12 +20,13 @@ body {
     color: $alWhite;
     background-color: $alBlack;
     margin: 0;
-    margin-bottom: 10rem;
+    padding: 10rem 0;
+    min-height: 100vh;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease;
+    transition: opacity 0.2s ease;
 }
 
 .fade-enter-from,
