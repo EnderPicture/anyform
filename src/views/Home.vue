@@ -54,7 +54,7 @@ h1 {
         z-index: -1;
     }
     > input:focus + .file {
-        transition: 0.2s ease;
+        transition: 0.1s ease;
         box-shadow: 0 0 0 2px $blue;
     }
 }
@@ -88,17 +88,25 @@ h1 {
     &__button {
         flex: 1;
         border: none;
-        background-color: $alWhite;
+        background-color: rgba($alWhite, 0.5);
         border-radius: 0.5rem;
         color: $alBlack;
         font-size: 1rem;
         font-weight: 900;
-        overflow: hidden;
-        padding: 0.5rem 1rem;
+        padding: 0;
         cursor: pointer;
+        > div {
+            background-color: $alWhite;
+            padding: 0.5rem 1rem;
+            border-radius: .5rem;
+        }
         &[disabled] {
             cursor: not-allowed;
             opacity: 0.5;
+        }
+        &:not([disabled]):hover > div {
+            transition: .1s ease;
+            transform: translateY(-4px);
         }
     }
 }
@@ -151,14 +159,18 @@ h1 {
             :disabled="nonProcessed.length <= 0"
             @click="process"
         >
-            process all
+            <div>
+                process all
+            </div>
         </button>
         <button
             class="batch-bar__button"
             :disabled="processed.length <= 0"
             @click="downloadAll"
         >
-            download all
+            <div>
+                download all
+            </div>
         </button>
     </div>
 

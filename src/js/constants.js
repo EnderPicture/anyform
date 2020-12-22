@@ -6,4 +6,4 @@ const FILE_STATUS = {
     processed: 3,
 };
 
-export {FILE_STATUS}
+export { FILE_STATUS }
