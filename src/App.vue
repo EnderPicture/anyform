@@ -11,6 +11,13 @@
 @import "src/styles/_utilities";
 * {
     box-sizing: border-box;
+    transition: .6s ease, color 0s, background-color 0s, padding 0s, margin 0s;
+    position: relative;
+}
+*:focus {
+    transition: 0.1s ease;
+    outline: none;
+    box-shadow: 0 0 0 2px $blue;
 }
 body {
     font-family: Ubuntu, Helvetica, Arial, sans-serif;

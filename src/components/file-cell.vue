@@ -114,7 +114,6 @@
         <transition name="fade"> </transition>
 
         <div class="overlay">
-            <p>{{ file.name }}</p>
             <a
                 class="download"
                 v-if="newFileName !== null"
@@ -122,6 +121,7 @@
                 :download="newFileName"
                 >download: {{ newFileName }}</a
             >
+            <p v-else>{{ file.name }}</p>
         </div>
     </div>
 </template>

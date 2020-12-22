@@ -27,7 +27,6 @@
         padding: 0.5rem 1rem;
         background-color: lighten($alBlack, 10);
         border-radius: 0.5rem;
-        opacity: 0.5;
         transition: all 0.2s ease;
         transition: 0.6s ease, padding 0.2s ease;
         &:hover {
@@ -36,17 +35,22 @@
             opacity: 1;
             cursor: pointer;
         }
+        > p {
+            transition: .2s ease;
+            margin: 0;
+        }
     }
     input:checked + .select {
-        padding: 0.5rem 2rem;
-        opacity: 1;
-        pointer-events: none;
+        font-weight: 900;
+        background-color: lighten($alBlack, 5);
+        cursor: default;
+        > p {
+            transform: scale(1.2);
+        }
     }
     input:focus + .select {
         transition: 0.2s ease;
-        transform: scale(1.1);
-        opacity: 1;
-        cursor: pointer;
+        box-shadow: 0 0 0 2px $blue;
     }
 }
 .desc {
@@ -66,7 +70,9 @@
                 type="radio"
             />
             <div class="select">
-                {{ format.name }}
+                <p>
+                    {{ format.name }}
+                </p>
             </div>
         </label>
     </div>

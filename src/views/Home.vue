@@ -28,6 +28,7 @@ h1 {
     font-weight: 900;
     box-shadow: 0 0px 0 0 rgba($alWhite, 0.5);
     border-radius: 0.5rem;
+    cursor: pointer;
     > .file {
         transition: 0.6s ease;
         border-radius: 0.5rem;
@@ -38,12 +39,10 @@ h1 {
         background-color: $alWhite;
     }
     &:hover > .file {
-        cursor: pointer;
         transform: translateY(-4px);
         transition: 0.1s ease;
     }
     &:active > .file {
-        cursor: pointer;
         transform: translateY(0px);
         transition: 0.1s ease;
     }
@@ -55,8 +54,8 @@ h1 {
         z-index: -1;
     }
     > input:focus + .file {
-        transform: translateY(-4px);
-        transition: 0.1s ease;
+        transition: 0.2s ease;
+        box-shadow: 0 0 0 2px $blue;
     }
 }
 .files {
@@ -73,35 +72,34 @@ h1 {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-.bottom-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 20;
-    padding-top: 1rem;
-    background-color: rgba($alBlack, 0.5);
-    &__mid {
-        @include mid-width;
-        display: flex;
-        justify-content: center;
-        > * {
-            display: inline-block;
-            &:not(:last-child) {
-                margin-right: 1rem;
-            }
+.batch-bar {
+    @include mid-width;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    position: relative;
+    margin-bottom: 1rem;
+    > * {
+        display: inline-block;
+        &:not(:last-child) {
+            margin-right: 1rem;
         }
     }
     &__button {
+        flex: 1;
         border: none;
         background-color: $alWhite;
-        border-radius: 0.5rem 0.5rem 0 0;
-        height: 3rem;
+        border-radius: 0.5rem;
         color: $alBlack;
         font-size: 1rem;
         font-weight: 900;
         overflow: hidden;
-        padding: 1rem 2rem;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        &[disabled] {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
     }
 }
 
@@ -119,6 +117,7 @@ h1 {
     font-weight: 900;
     pointer-events: none;
     overflow: hidden;
+    text-align: center;
 }
 
 .list-item {
@@ -134,20 +133,6 @@ h1 {
 .list-leave-active {
     position: absolute;
 }
-
-.list-down-item {
-    transition: all 0.8s ease;
-}
-
-.list-down-enter-from,
-.list-down-leave-to {
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.list-down-leave-active {
-    position: absolute;
-}
 </style>
 
 <template>
@@ -160,6 +145,23 @@ h1 {
     </label>
     <format-selector></format-selector>
 
+    <div class="batch-bar">
+        <button
+            class="batch-bar__button"
+            :disabled="nonProcessed.length <= 0"
+            @click="process"
+        >
+            process all
+        </button>
+        <button
+            class="batch-bar__button"
+            :disabled="processed.length <= 0"
+            @click="downloadAll"
+        >
+            download all
+        </button>
+    </div>
+
     <div class="files">
         <transition-group name="list">
             <file-cell
@@ -169,14 +171,6 @@ h1 {
                 :file="file"
             ></file-cell>
         </transition-group>
-    </div>
-    <div class="bottom-bar">
-        <div class="bottom-bar__mid">
-            <transition-group name="list-down">
-                <button class="bottom-bar__button list-down-item" key="3" @click="downloadAll" v-if="processed.length > 0">download</button>
-                <button class="bottom-bar__button list-down-item" key="2" @click="process" v-if="nonProcessed.length > 0">process</button>
-            </transition-group>
-        </div>
     </div>
     <transition name="fade">
         <p v-if="fileInDropZone > 0" class="drop-target">Drop Here</p>
@@ -193,32 +187,7 @@ export default {
     data() {
         return {
             fileInDropZone: 0,
-            buttons: [
-                {
-                    name: "process",
-                    text: "process",
-                    function: this.process,
-                    show: false,
-                },
-                {
-                    name: "batch-download",
-                    text: "download all",
-                    function: this.downloadAll,
-                    show: false,
-                },
-            ],
         };
-    },
-    watch: {
-        nonProcessed(val) {
-            this.buttons.find((button) => button.name === "process").show =
-                val.length > 0;
-        },
-        processed(val) {
-            this.buttons.find(
-                (button) => button.name === "batch-download"
-            ).show = val.length > 0;
-        },
     },
     computed: {
         files() {
