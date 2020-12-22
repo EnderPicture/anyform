@@ -11,7 +11,7 @@
     grid-template-columns: repeat(5, auto);
     position: relative;
     background-color: lighten($alBlack, 10);
-    border-radius: 0.5rem;
+    border-radius: $default-radius;
     overflow: hidden;
 
     height: 5rem;

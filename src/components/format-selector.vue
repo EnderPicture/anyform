@@ -41,7 +41,7 @@
     .select {
         padding: 0.5rem 1rem;
         background-color: lighten($alBlack, 10);
-        border-radius: 0.5rem;
+        border-radius: $default-radius;
         transition: 0.6s ease, padding 0.1s ease;
         &:hover {
             transition: 0.1s ease;

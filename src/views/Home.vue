@@ -27,11 +27,11 @@ h1 {
     font-size: 1rem;
     font-weight: 900;
     box-shadow: 0 0px 0 0 rgba($alWhite, 0.5);
-    border-radius: 0.5rem;
+    border-radius: $default-radius;
     cursor: pointer;
     > .file {
         transition: 0.6s ease;
-        border-radius: 0.5rem;
+        border-radius: $default-radius;
         height: 100%;
         display: flex;
         align-items: center;
@@ -89,7 +89,7 @@ h1 {
         flex: 1;
         border: none;
         background-color: rgba($alWhite, 0.5);
-        border-radius: 0.5rem;
+        border-radius: $default-radius;
         color: $alBlack;
         font-size: 1rem;
         font-weight: 900;
@@ -98,7 +98,7 @@ h1 {
         > div {
             background-color: $alWhite;
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            border-radius: $default-radius;
         }
         &[disabled] {
             cursor: not-allowed;

@@ -11,7 +11,7 @@
 @import "src/styles/_utilities";
 * {
     box-sizing: border-box;
-    transition: .6s ease, color 0s, background-color 0s, padding 0s, margin 0s;
+    transition: 0.6s ease, color 0s, background-color 0s, padding 0s, margin 0s;
     position: relative;
 }
 *:focus {
