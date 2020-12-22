@@ -97,12 +97,35 @@ export default {
         },
     },
     watch: {
-        selectedFormat() {
-            this.$store.commit("setFormat", this.selectedFormat);
+        selectedFormat(value) {
+            this.$store.commit("setFormat", value);
+            this.$router.push({
+                name: "Format",
+                params: { format: value.name },
+            });
+        },
+        $route(to) {
+            if (to.params.format !== undefined) {
+                this.formatByName(to.params.format);
+            }
+        },
+    },
+    methods: {
+        formatByName(formatName) {
+            let newFormat = this.$store.state.formats.find(
+                (format) => format.name === formatName
+            );
+            if (newFormat !== undefined) {
+                this.selectedFormat = newFormat;
+            }
         },
     },
     created() {
-        this.selectedFormat = this.formats[0];
+        if (this.$route.params.format === undefined) {
+            this.selectedFormat = this.formats[0];
+        } else {
+            this.formatByName(this.$route.params.format);
+        }
     },
 };
 </script>

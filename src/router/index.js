@@ -5,7 +5,14 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: ':format',
+        name: 'Format',
+        component: Home
+      },
+    ]
   },
   {
     path: '/about',
