@@ -152,6 +152,7 @@ h1 {
         </div>
     </label>
     <format-selector></format-selector>
+    <resize-config></resize-config>
 
     <div class="batch-bar">
         <button
@@ -192,6 +193,7 @@ h1 {
 <script>
 import FileCell from "@/components/file-cell.vue";
 import FormatSelector from "@/components/format-selector.vue";
+import ResizeConfig from "@/components/resize-config.vue";
 import { FILE_STATUS } from "@/js/constants";
 
 export default {
@@ -260,6 +262,7 @@ export default {
     components: {
         FileCell,
         FormatSelector,
+        ResizeConfig,
     },
     mounted() {
         this.$store.dispatch("loadWorker");
