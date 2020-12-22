@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/anyform/precache-manifest.9f89f5da51db44fc3dac3a7b9c807abb.js"
+  "/anyform/precache-manifest.05c08351debdd3ed4a71261801953a93.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "anyform"});
