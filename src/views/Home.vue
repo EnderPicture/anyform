@@ -98,14 +98,14 @@ h1 {
         > div {
             background-color: $alWhite;
             padding: 0.5rem 1rem;
-            border-radius: .5rem;
+            border-radius: 0.5rem;
         }
         &[disabled] {
             cursor: not-allowed;
             opacity: 0.5;
         }
         &:not([disabled]):hover > div {
-            transition: .1s ease;
+            transition: 0.1s ease;
             transform: translateY(-4px);
         }
     }
