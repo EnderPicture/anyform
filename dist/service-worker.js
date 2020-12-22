@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/anyform/precache-manifest.740673e546cec75e005e85c3a2c0997a.js"
+  "/anyform/precache-manifest.9f89f5da51db44fc3dac3a7b9c807abb.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "img"});
+workbox.core.setCacheNameDetails({prefix: "anyform"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
