@@ -23,23 +23,6 @@
         padding: 0;
         // visibility: hidden;
     }
-    .select {
-        padding: 0.5rem 1rem;
-        background-color: lighten($alBlack, 10);
-        border-radius: 0.5rem;
-        transition: all 0.2s ease;
-        transition: 0.6s ease, padding 0.2s ease;
-        &:hover {
-            transition: 0.2s ease;
-            transform: scale(1.1);
-            opacity: 1;
-            cursor: pointer;
-        }
-        > p {
-            transition: 0.2s ease;
-            margin: 0;
-        }
-    }
     input:checked + .select {
         font-weight: 900;
         background-color: lighten($alBlack, 5);
@@ -49,8 +32,27 @@
         }
     }
     input:focus + .select {
-        transition: 0.2s ease;
+        transition: all 0.6s ease, box-shadow 0.1s ease;
         box-shadow: 0 0 0 2px $blue;
+        &:hover {
+            transition: 0.1s ease;
+        }
+    }
+    .select {
+        padding: 0.5rem 1rem;
+        background-color: lighten($alBlack, 10);
+        border-radius: 0.5rem;
+        transition: 0.6s ease, padding 0.1s ease;
+        &:hover {
+            transition: 0.1s ease;
+            transform: scale(1.1);
+            opacity: 1;
+            cursor: pointer;
+        }
+        > p {
+            transition: 0.1s ease;
+            margin: 0;
+        }
     }
 }
 .desc {
