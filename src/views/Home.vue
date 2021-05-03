@@ -152,7 +152,7 @@ h1 {
         </div>
     </label>
     <format-selector></format-selector>
-    <resize-config></resize-config>
+    <!-- <resize-config></resize-config> -->
 
     <div class="batch-bar">
         <button
@@ -222,7 +222,7 @@ export default {
     methods: {
         input(e) {
             this.$store.dispatch("addFiles", e.target.files);
-            e.target.value = "";
+            // e.target.value = "";
         },
         fileDrop(e) {
             e.preventDefault();
@@ -262,7 +262,7 @@ export default {
     components: {
         FileCell,
         FormatSelector,
-        ResizeConfig,
+        // ResizeConfig,
     },
     mounted() {
         this.$store.dispatch("loadWorker");
